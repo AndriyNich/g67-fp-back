@@ -1,8 +1,7 @@
 const bcrypt = require("bcrypt");
-const gravatar = require("gravatar");
 
 const { User } = require("../../models/user");
-const { HttpError } = require("../../helpers");
+const { HttpError, createTokenForUserId } = require("../../helpers");
 
 const register = async (req, res) => {
   const { email, password } = req.body;
@@ -19,8 +18,15 @@ const register = async (req, res) => {
     password: hashPassword,
   });
 
+  const token = createTokenForUserId(newUser._id);
+  await User.findByIdAndUpdate(newUser._id, { token });
+
   res.status(201).json({
-    user: { email: newUser.email },
+    token,
+    user: {
+      name: newUser.name,
+      email: newUser.email,
+    },
   });
 };
 

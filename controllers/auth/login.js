@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const { SECRET_KEY } = process.env;
 
 const { User } = require("../../models/user");
-const { HttpError } = require("../../helpers");
+const { HttpError, createTokenForUserId } = require("../../helpers");
 
 const messageConnectInvalid = "Email or password is wrong";
 
@@ -21,11 +21,7 @@ const login = async (req, res) => {
     throw HttpError(401, messageConnectInvalid);
   }
 
-  const payload = {
-    id: user._id,
-  };
-
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "1h" });
+  const token = createTokenForUserId(user._id);
   await User.findByIdAndUpdate(user._id, { token });
 
   res.json({ token, user: { email, subscription: user.subscription } });

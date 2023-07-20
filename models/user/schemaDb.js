@@ -6,6 +6,10 @@ const { handleMongooseError } = require("../../helpers");
 
 const userSchema = new Schema(
   {
+    name: {
+      type: String,
+      required: [true, "Name is required"],
+    },
     email: {
       type: String,
       match: emailRegexp,
