@@ -1,0 +1,92 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "version": "1.0.0",
+    "title": "Connections API"
+  },
+  "servers": [
+    {
+      "url": "https://fs-67.onrender.com/api - API base URL"
+    }
+  ],
+  "tags": [
+    {
+      "name": "user",
+      "description": "Operation about users"
+    }
+  ],
+  "paths": {
+    "/users/register": {
+      "post": {
+        "tags": ["user"],
+        "summary": "Add a new user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": null
+      }
+    },
+    "/users/login": {
+      "post": {
+        "tags": ["user"],
+        "summary": "Login user",
+        "requestBody": {
+          "content": null
+        },
+        "responses": null
+      }
+    },
+    "/users/logout": {
+      "post": {
+        "tags": ["user"],
+        "summary": "Logout user",
+        "requestBody": {
+          "content": null
+        },
+        "responses": null
+      }
+    },
+    "/users/current": {
+      "get": {
+        "tags": ["user"],
+        "summary": "Get information about current user",
+        "requestBody": {
+          "content": null
+        },
+        "responses": null
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "required": ["name", "email", "password"],
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Backend-generated unique identifier."
+          },
+          "name": {
+            "type": "string",
+            "example": "Victor"
+          },
+          "email": {
+            "type": "string",
+            "example": "info@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "1S2d2#wds"
+          }
+        }
+      }
+    }
+  }
+}
