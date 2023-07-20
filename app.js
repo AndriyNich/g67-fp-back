@@ -3,7 +3,7 @@ const cors = require("cors");
 const logger = require("morgan");
 const { pathToFile } = require("./constants");
 
-const { authRouter, contactsRouter } = require("./routes/api");
+const { authRouter } = require("./routes/api");
 
 const app = express();
 
@@ -12,10 +12,8 @@ const formatLog = app.get("env") === "development" ? "dev" : "short";
 app.use(logger(formatLog));
 app.use(cors());
 app.use(express.json());
-app.use(express.static(pathToFile.PUBLIC));
 
 app.use("/api/users", authRouter);
-app.use("/api/contacts", contactsRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
