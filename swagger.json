@@ -69,21 +69,63 @@
         "required": ["name", "email", "password"],
         "type": "object",
         "properties": {
-          "_id": {
+          "id": {
             "type": "string",
             "description": "Backend-generated unique identifier."
           },
           "name": {
             "type": "string",
-            "example": "Victor"
+            "example": "Mango1"
           },
           "email": {
             "type": "string",
-            "example": "info@gmail.com"
+            "example": "mango1@gmail.com"
+          },
+          "birthday": {
+            "type": "string",
+            "example": "00.00.0000"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+380000000000"
+          },
+          "city": {
+            "type": "string",
+            "example": "Kiev"
+          },
+          "avatarURL": {
+            "type": "string"
           },
           "password": {
             "type": "string",
-            "example": "1S2d2#wds"
+            "example": "123456"
+          }
+        }
+      },
+      "Pet": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Backend-generated unique identifier."
+          },
+          "options": {
+            "type": "string",
+            "description": "тут перелік параметрів: your pet, sell, lost/found, in good hands"
+          },
+          "name": {
+            "type": "string"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "тут треба подумати чи дату чи техт"
+          },
+          "type": {
+            "type": "string",
+            "description": "breed of animal"
+          },
+          "avatarURL": {
+            "type": "string"
           }
         }
       }
