@@ -13,6 +13,14 @@
     {
       "name": "user",
       "description": "Operation about users"
+    },
+    {
+      "name": "pet",
+      "description": "Operation about pets"
+    },
+    {
+      "name": "notice",
+      "description": "Operation about notices"
     }
   ],
   "paths": {
@@ -61,6 +69,37 @@
         },
         "responses": null
       }
+    },
+    "/users": {
+      "patch": {
+        "tags": ["user"],
+        "summary": "Update information about current user and avatars",
+        "requestBody": {
+          "content": null
+        },
+        "responses": null
+      }
+    },
+
+    "/pets": {
+      "post": {
+        "tags": ["pet"],
+        "summary": "Add new a pet",
+        "requestBody": {
+          "content": null
+        },
+        "responses": null
+      }
+    },
+    "/pets/:id": {
+      "delete": {
+        "tags": ["pet"],
+        "summary": "Delete pet by petId ",
+        "requestBody": {
+          "content": null
+        },
+        "responses": null
+      }
     }
   },
   "components": {
@@ -103,11 +142,16 @@
         }
       },
       "Pet": {
+        "required": ["options", "name"],
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
             "description": "Backend-generated unique identifier."
+          },
+          "ownerId": {
+            "type": "string",
+            "description": "Backend get from token user."
           },
           "options": {
             "type": "string",
@@ -126,6 +170,20 @@
           },
           "avatarURL": {
             "type": "string"
+          },
+          "title": {
+            "type": "string",
+            "example": "Cute dog looking for a home"
+          },
+          "comments": {
+            "type": "string"
+          },
+          "sex": {
+            "type": "string",
+            "description": "поле вибору з масиву 'f' or 'm'"
+          },
+          "price": {
+            "type": "number"
           }
         }
       }
