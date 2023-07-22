@@ -1,19 +1,19 @@
-const { Pet } = require('../../models/pet');
+const { Notice } = require('../../models/notice');
 
-const addPet = async (req, res) => {
+const addNotice = async (req, res) => {
   const { _id: owner } = req.user;
 
   const { AVATAR_PET_DEFAULT } = process.env;
 
-  const pet = await Pet.create({
+  const notice = await Notice.create({
     avatarURL: AVATAR_PET_DEFAULT,
     ...req.body,
     owner,
   });
 
   res.status(201).json({
-    pet,
+    notice,
   });
 };
 
-module.exports = addPet;
+module.exports = addNotice;

@@ -5,6 +5,7 @@ const logger = require('morgan');
 
 const { authRouter } = require('./routes/api');
 const { petRouter } = require('./routes/pet');
+const { noticeRouter } = require('./routes/notice');
 
 const app = express();
 
@@ -20,6 +21,8 @@ app.use(express.json());
 app.use('/api/users', authRouter);
 
 app.use('/api/pets', petRouter);
+
+app.use('/api/notices', noticeRouter);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

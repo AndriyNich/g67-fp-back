@@ -8,8 +8,6 @@ const register = async (req, res) => {
 
   const { AVATAR_USER_DEFAULT } = process.env;
 
-  console.log(AVATAR_USER_DEFAULT);
-
   const user = await User.findOne({ email });
   if (user) {
     throw HttpError(409, 'Email already in use');
