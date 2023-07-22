@@ -11,4 +11,6 @@ router.post('/', authenticate, validateBody(addSchema), ctrl.addPet);
 
 router.delete('/:id', authenticate, isValidId, ctrl.deletePetById);
 
+router.get('/', authenticate, ctrl.getPets);
+
 module.exports = router;
