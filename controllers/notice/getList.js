@@ -1,6 +1,6 @@
-const { Notice } = require('../../models/notice');
+const { Notice } = require("../../models/notice");
 
-const { categoryNoticeList } = require('../../constants');
+// const { categoryNoticeList } = require("../../constants");
 
 const getList = async (req, res) => {
   console.log(req.query);
@@ -17,11 +17,16 @@ const getList = async (req, res) => {
   //     queryString = { owner, ...queryString };
   //   }
 
-  const result = await Notice.find(queryString, '-createdAt -updatedAt', {
+  const result = await Notice.find(queryString, "-createdAt -updatedAt", {
     skip,
     limit,
   });
-  res.json(result);
+
+  const data = JSON.parse(JSON.stringify(result)).map((e) => {
+    return { ...e, favorite: false };
+  });
+
+  res.json(data);
 };
 
 module.exports = getList;
