@@ -153,16 +153,47 @@
             "type": "string",
             "description": "Backend get from token user."
           },
-          "options": {
-            "type": "string",
-            "description": "тут перелік параметрів: your pet, sell, lost/found, in good hands"
-          },
           "name": {
             "type": "string"
           },
           "birthday": {
             "type": "string",
             "description": "тут треба подумати чи дату чи техт"
+          },
+          "type": {
+            "type": "string",
+            "description": "breed of animal"
+          },
+          "avatarURL": {
+            "type": "string"
+          },
+          "comments": {
+            "type": "string"
+          }
+        }
+      },
+      "Notice": {
+        "required": ["options", "name", "sex"],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Backend-generated unique identifier."
+          },
+          "ownerId": {
+            "type": "string",
+            "description": "Backend get from token user."
+          },
+          "category": {
+            "type": "string",
+            "enum": ["sell", "lost-found", "for-free"]
+          },
+          "name": {
+            "type": "string"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "birthday of animal"
           },
           "type": {
             "type": "string",
@@ -180,7 +211,7 @@
           },
           "sex": {
             "type": "string",
-            "description": "поле вибору з масиву 'f' or 'm'"
+            "enum": ["f", "m"]
           },
           "price": {
             "type": "number"

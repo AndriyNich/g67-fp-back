@@ -1,14 +1,18 @@
-const bcrypt = require("bcrypt");
+const bcrypt = require('bcrypt');
 
-const { User } = require("../../models/user");
-const { HttpError, createTokenForUserId } = require("../../helpers");
+const { User } = require('../../models/user');
+const { HttpError, createTokenForUserId } = require('../../helpers');
 
 const register = async (req, res) => {
   const { email, password } = req.body;
 
+  const { AVATAR_USER_DEFAULT } = process.env;
+
+  console.log(AVATAR_USER_DEFAULT);
+
   const user = await User.findOne({ email });
   if (user) {
-    throw HttpError(409, "Email already in use");
+    throw HttpError(409, 'Email already in use');
   }
 
   const hashPassword = await bcrypt.hash(password, 10);
@@ -16,6 +20,7 @@ const register = async (req, res) => {
   const newUser = await User.create({
     ...req.body,
     password: hashPassword,
+    avatarURL: AVATAR_USER_DEFAULT,
   });
 
   const token = createTokenForUserId(newUser._id);
@@ -26,6 +31,7 @@ const register = async (req, res) => {
     user: {
       name: newUser.name,
       email: newUser.email,
+      avatarURL: AVATAR_USER_DEFAULT,
     },
   });
 };

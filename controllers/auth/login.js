@@ -1,12 +1,9 @@
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const bcrypt = require('bcrypt');
 
-const { SECRET_KEY } = process.env;
+const { User } = require('../../models/user');
+const { HttpError, createTokenForUserId } = require('../../helpers');
 
-const { User } = require("../../models/user");
-const { HttpError, createTokenForUserId } = require("../../helpers");
-
-const messageConnectInvalid = "Email or password is wrong";
+const messageConnectInvalid = 'Email or password is wrong';
 
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -24,7 +21,14 @@ const login = async (req, res) => {
   const token = createTokenForUserId(user._id);
   await User.findByIdAndUpdate(user._id, { token });
 
-  res.json({ token, user: { email, subscription: user.subscription } });
+  res.json({
+    token,
+    user: {
+      name: user.name,
+      email,
+      avatarURL: user.avatarURL,
+    },
+  });
 };
 
 module.exports = login;
