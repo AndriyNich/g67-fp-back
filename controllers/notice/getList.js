@@ -1,32 +1,37 @@
 const { Notice } = require("../../models/notice");
 
-// const { categoryNoticeList } = require("../../constants");
-
 const getList = async (req, res) => {
-  console.log(req.query);
-  const { page = 1, limit = 20 } = req.query;
+  const { page = 1, limit = 20, title = "", category = "" } = req.query;
   const skip = (page - 1) * limit;
 
-  const queryString = { ...req.query };
+  let queryString = {};
+  if (title) {
+    queryString = { ...queryString, title: { $regex: title, $options: "i" } };
+  }
 
-  console.log(`page: ${page}, limit: ${limit}`);
-  console.log(queryString);
-
-  //   if (req?.user?._id) {
-  //     const { _id: owner } = req.user;
-  //     queryString = { owner, ...queryString };
-  //   }
+  if (category) {
+    queryString = { ...queryString, category };
+  }
 
   const result = await Notice.find(queryString, "-createdAt -updatedAt", {
     skip,
     limit,
   });
 
+  const maxHits = await Notice.find(queryString).count();
+
+  // const ddd = await Notice.aggregate([
+  //   { $match: { title: { $regex: "dog", $options: "i" } } },
+  //   { $group: { _id: { $sum: 1 } } },
+  // ]);
+
   const data = JSON.parse(JSON.stringify(result)).map((e) => {
     return { ...e, favorite: false };
   });
 
-  res.json(data);
+  const responseData = { notices: data, maxHits };
+
+  res.json(responseData);
 };
 
 module.exports = getList;

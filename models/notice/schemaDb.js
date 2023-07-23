@@ -1,35 +1,35 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model } = require("mongoose");
 
-const { handleMongooseError } = require('../../helpers');
-const { categoryNoticeList, sexPetList } = require('../../constants');
+const { handleMongooseError } = require("../../helpers");
+const { categoryNoticeList, sexPetList } = require("../../constants");
 
 const noticeSchema = new Schema(
   {
     owner: {
       type: Schema.Types.ObjectId,
-      ref: 'user',
+      ref: "user",
     },
     category: {
       type: String,
       enum: categoryNoticeList,
-      required: [true, 'Category is required'],
+      required: [true, "Category is required"],
     },
     name: {
       type: String,
-      required: [true, 'Name is required'],
+      required: [true, "Name is required"],
     },
     birthday: {
       type: String,
-      default: '',
-      required: [true, 'Birthday is required'],
+      default: "",
+      required: [true, "Birthday is required"],
     },
     type: {
       type: String,
-      required: [true, 'Type is required'],
+      required: [true, "Type is required"],
     },
     avatarURL: {
       type: String,
-      default: '',
+      default: "",
     },
     title: {
       type: String,
@@ -37,7 +37,7 @@ const noticeSchema = new Schema(
     sex: {
       type: String,
       enum: sexPetList,
-      required: [true, 'Sex is required'],
+      required: [true, "Sex is required"],
     },
     price: {
       type: Number,
@@ -45,14 +45,18 @@ const noticeSchema = new Schema(
     },
     comments: {
       type: String,
-      default: '',
+      default: "",
+    },
+    location: {
+      type: String,
+      default: "",
     },
   },
   { versionKey: false, timestamps: true }
 );
 
-noticeSchema.post('save', handleMongooseError);
+noticeSchema.post("save", handleMongooseError);
 
-const Notice = model('notice', noticeSchema);
+const Notice = model("notice", noticeSchema);
 
 module.exports = Notice;

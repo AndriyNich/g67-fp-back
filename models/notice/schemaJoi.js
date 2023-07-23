@@ -1,6 +1,6 @@
-const Joi = require('joi');
+const Joi = require("joi");
 
-const { categoryNoticeList, sexPetList } = require('../../constants');
+const { categoryNoticeList, sexPetList } = require("../../constants");
 
 const addSchema = Joi.object({
   category: Joi.string()
@@ -9,6 +9,7 @@ const addSchema = Joi.object({
   name: Joi.string().min(2).max(16).required(),
   birthday: Joi.string().required(),
   type: Joi.string().min(2).max(16).required(),
+  title: Joi.string().min(1),
   sex: Joi.string()
     .valid(...sexPetList)
     .required(),
