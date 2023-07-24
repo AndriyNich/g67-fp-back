@@ -25,6 +25,8 @@ router.delete('/:id', authenticate, isValidId, ctrl.deleteNoticeById);
 
 router.get('/', authenticateUpp, ctrl.getList);
 
+router.get('/favorites', authenticate, ctrl.getFavoriteListByUserId);
+
 router.get('/:id', authenticateUpp, ctrl.getNoticeById);
 
 module.exports = router;
