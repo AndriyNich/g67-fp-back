@@ -6,6 +6,7 @@ const getNoticeById = require('./getNoticeById');
 const deleteNoticeById = require('./deleteNoticeById');
 const addNoticeByIdToUserFavorite = require('./addNoticeByIdToUserFavorite');
 const getFavoriteListByUserId = require('./getFavoriteListByUserId');
+const getNoticeListByUserId = require('./getNoticeListByUserId');
 
 module.exports = {
   addNotice: ctrlWrapper(addNotice),
@@ -14,4 +15,5 @@ module.exports = {
   deleteNoticeById: ctrlWrapper(deleteNoticeById),
   addNoticeByIdToUserFavorite: ctrlWrapper(addNoticeByIdToUserFavorite),
   getFavoriteListByUserId: ctrlWrapper(getFavoriteListByUserId),
+  getNoticeListByUserId: ctrlWrapper(getNoticeListByUserId),
 };
