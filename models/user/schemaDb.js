@@ -36,6 +36,10 @@ const userSchema = new Schema(
       type: String,
       default: '',
     },
+    favorites: {
+      type: Array,
+      default: [],
+    },
     token: {
       type: String,
       default: '',

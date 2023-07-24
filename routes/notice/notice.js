@@ -14,6 +14,13 @@ const router = express.Router();
 
 router.post('/', authenticate, validateBody(addSchema), ctrl.addNotice);
 
+router.patch(
+  '/:id/users',
+  authenticate,
+  isValidId,
+  ctrl.addNoticeByIdToUserFavorite
+);
+
 router.delete('/:id', authenticate, isValidId, ctrl.deleteNoticeById);
 
 router.get('/', authenticateUpp, ctrl.getList);
