@@ -3,11 +3,22 @@ const express = require('express');
 const ctrl = require('../../controllers/pet');
 const { addSchema } = require('../../models/pet');
 
-const { validateBody, authenticate, isValidId } = require('../../middlewares');
+const {
+  validateBody,
+  authenticate,
+  isValidId,
+  upload,
+} = require('../../middlewares');
 
 const router = express.Router();
 
-router.post('/', authenticate, validateBody(addSchema), ctrl.addPet);
+router.post(
+  '/',
+  authenticate,
+  upload.single('avatar'),
+  validateBody(addSchema),
+  ctrl.addPet
+);
 
 router.delete('/:id', authenticate, isValidId, ctrl.deletePetById);
 

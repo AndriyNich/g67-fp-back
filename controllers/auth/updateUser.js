@@ -1,14 +1,14 @@
-const cloudinary = require('cloudinary').v2;
-
 const { User } = require('../../models/user');
-
-cloudinary.config({
-  secure: true,
-});
 
 const updateUser = async (req, res) => {
   const { user } = req;
-  const updateUser = Object.assign(user, req.body);
+
+  let updateUser = Object.assign(user, req.body);
+
+  const avatarURL = req?.file?.path;
+  if (avatarURL) {
+    updateUser = Object.assign(updateUser, { avatarURL });
+  }
   await User.findByIdAndUpdate(user._id, updateUser);
 
   res.status(200).json({

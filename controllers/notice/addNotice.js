@@ -3,10 +3,15 @@ const { Notice } = require('../../models/notice');
 const addNotice = async (req, res) => {
   const { _id: owner } = req.user;
 
-  const { AVATAR_PET_DEFAULT } = process.env;
+  let { AVATAR_PET_DEFAULT: file } = process.env;
+
+  const avatarURL = req?.file?.path;
+  if (avatarURL) {
+    file = avatarURL;
+  }
 
   const notice = await Notice.create({
-    avatarURL: AVATAR_PET_DEFAULT,
+    avatarURL: file,
     ...req.body,
     owner,
   });
