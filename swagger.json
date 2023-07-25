@@ -4,9 +4,10 @@
     "version": "1.0.0",
     "title": "Connections API"
   },
+  "consumers": ["application/json", "multipart/form-data"],
   "servers": [
     {
-      "url": "https://fullstackforce.onrender.com/api - API base URL"
+      "url": "https://fullstackforce.onrender.com/api"
     }
   ],
   "tags": [
@@ -21,8 +22,13 @@
     {
       "name": "notice",
       "description": "Operation about notices"
+    },
+    {
+      "name": "friend",
+      "description": "Operation about friends"
     }
   ],
+
   "paths": {
     "/users/register": {
       "post": {
@@ -32,12 +38,55 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/User"
+                "$ref": "#/components/schemas/UserRegisterRequest"
               }
             }
           }
         },
-        "responses": null
+        "responses": {
+          "201": {
+            "description": "Successfull operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRegisterResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "\"password\" is required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Provided email alredy exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Email already in use"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/users/login": {
@@ -45,15 +94,67 @@
         "tags": ["user"],
         "summary": "Login user",
         "requestBody": {
-          "content": null
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserLoginRequest"
+              }
+            }
+          }
         },
-        "responses": null
+        "responses": {
+          "200": {
+            "description": "Successfull operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRegisterResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "\"password\" is required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unathorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Email or password is wrong"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/users/logout": {
       "post": {
         "tags": ["user"],
         "summary": "Logout user",
+        "security": {
+          "beareAuth": []
+        },
         "requestBody": {
           "content": null
         },
@@ -82,6 +183,44 @@
     },
 
     "/pets": {
+      "get": {
+        "tags": ["pet"],
+        "summary": "Get information about current user's pets",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "required": true,
+            "type": "strings",
+            "description": "Page"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": true,
+            "type": "strings",
+            "description": "Limit"
+          },
+          {
+            "in": "query",
+            "name": "title",
+            "required": true,
+            "type": "strings",
+            "description": "Title"
+          },
+          {
+            "in": "query",
+            "name": "category",
+            "required": true,
+            "type": "strings",
+            "description": "Category"
+          }
+        ],
+        "requestBody": {
+          "content": null
+        },
+        "responses": null
+      },
       "post": {
         "tags": ["pet"],
         "summary": "Add new a pet",
@@ -95,6 +234,253 @@
       "delete": {
         "tags": ["pet"],
         "summary": "Delete pet by petId ",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "strings",
+            "description": "Pet's id"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Pet"
+              }
+            }
+          }
+        },
+        "responses": null
+      }
+    },
+
+    "/notices": {
+      "get": {
+        "tags": ["notice"],
+        "summary": "Get list all notices",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "required": true,
+            "type": "strings",
+            "description": "Page"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": true,
+            "type": "strings",
+            "description": "Limit"
+          },
+          {
+            "in": "query",
+            "name": "title",
+            "required": true,
+            "type": "strings",
+            "description": "Title"
+          },
+          {
+            "in": "query",
+            "name": "category",
+            "required": true,
+            "type": "strings",
+            "description": "Category"
+          }
+        ],
+        "requestBody": {
+          "content": null
+        },
+        "responses": null
+      },
+      "post": {
+        "tags": ["notice"],
+        "summary": "Add new notice",
+        "requestBody": {
+          "content": null
+        },
+        "responses": null
+      }
+    },
+    "/notices/:id": {
+      "get": {
+        "tags": ["notice"],
+        "summary": "Get notice by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "strings",
+            "description": "Notice's id for get information"
+          }
+        ],
+        "requestBody": {
+          "content": null
+        },
+        "responses": null
+      }
+    },
+    "/notices/favorites": {
+      "get": {
+        "tags": ["notice"],
+        "summary": "Get list all favorites notices for current user",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "required": true,
+            "type": "strings",
+            "description": "Page"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": true,
+            "type": "strings",
+            "description": "Limit"
+          },
+          {
+            "in": "query",
+            "name": "title",
+            "required": true,
+            "type": "strings",
+            "description": "Title"
+          },
+          {
+            "in": "query",
+            "name": "category",
+            "required": true,
+            "type": "strings",
+            "description": "Category"
+          }
+        ],
+        "requestBody": {
+          "content": null
+        },
+        "responses": null
+      }
+    },
+    "/notices/users": {
+      "get": {
+        "tags": ["notice"],
+        "summary": "Get list all notices created current user",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "required": true,
+            "type": "strings",
+            "description": "Page"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": true,
+            "type": "strings",
+            "description": "Limit"
+          },
+          {
+            "in": "query",
+            "name": "title",
+            "required": true,
+            "type": "strings",
+            "description": "Title"
+          },
+          {
+            "in": "query",
+            "name": "category",
+            "required": true,
+            "type": "strings",
+            "description": "Category"
+          }
+        ],
+        "requestBody": {
+          "content": null
+        },
+        "responses": null
+      }
+    },
+    "/notices/:id/favorites": {
+      "patch": {
+        "tags": ["notice"],
+        "summary": "Add notice with ID to favorites collection current user",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "strings",
+            "description": "Notice's id for add to favorites collection current user"
+          }
+        ],
+        "requestBody": {
+          "content": null
+        },
+        "responses": null
+      }
+    },
+    "/notices/:id": {
+      "delete": {
+        "tags": ["notice"],
+        "summary": "Delete notice by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "strings",
+            "description": "Notice's id for deleting"
+          }
+        ],
+        "requestBody": {
+          "content": null
+        },
+        "responses": null
+      }
+    },
+    "/notices/favorites/:id": {
+      "delete": {
+        "tags": ["notice"],
+        "summary": "Delete notice by ID from favorites collection current user",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "strings",
+            "description": "Notice's id for remove from favorites collection current user"
+          }
+        ],
+        "requestBody": {
+          "content": null
+        },
+        "responses": null
+      }
+    },
+
+    "/friends": {
+      "get": {
+        "tags": ["friend"],
+        "summary": "Get list friends",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "required": true,
+            "type": "strings",
+            "description": "Page"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": true,
+            "type": "strings",
+            "description": "Limit"
+          }
+        ],
         "requestBody": {
           "content": null
         },
@@ -102,8 +488,106 @@
       }
     }
   },
+
   "components": {
+    "securiteSchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
     "schemas": {
+      "UserRegisterRequest": {
+        "required": ["name", "email", "password"],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Mango1"
+          },
+          "email": {
+            "type": "string",
+            "example": "mango1@gmail.com",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "example": "Qwerty123"
+          }
+        }
+      },
+      "UserRegisterResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YmJhMzlkMTM4ZmVjMDBhZGRlMmI0NyIsImlhdCI6MTY5MDI4ODA5NywiZXhwIjoxNjkwMzc0NDk3fQ.JTsGap1ZHv3lrwvTHhbApAQrC4ED_l0DH40yDYtINhk"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "example": "Mango1"
+              },
+              "email": {
+                "type": "string",
+                "example": "mango1@gmail.com",
+                "format": "email"
+              },
+              "avatarURL": {
+                "type": "string",
+                "example": "https://res.cloudinary.com/duz0fredh/image/upload/v1690286198/users/64bba39d138fec00adde2b47_.jpg"
+              }
+            }
+          }
+        }
+      },
+
+      "UserLoginRequest": {
+        "required": ["name", "email", "password"],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "mango5@gmail.com",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "example": "123457"
+          }
+        }
+      },
+      "UserLoginResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YmJhMzlkMTM4ZmVjMDBhZGRlMmI0NyIsImlhdCI6MTY5MDI4ODA5NywiZXhwIjoxNjkwMzc0NDk3fQ.JTsGap1ZHv3lrwvTHhbApAQrC4ED_l0DH40yDYtINhk"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "example": "Mango1"
+              },
+              "email": {
+                "type": "string",
+                "example": "mango1@gmail.com",
+                "format": "email"
+              },
+              "avatarURL": {
+                "type": "string",
+                "example": "https://res.cloudinary.com/duz0fredh/image/upload/v1690286198/users/64bba39d138fec00adde2b47_.jpg"
+              }
+            }
+          }
+        }
+      },
+
       "User": {
         "required": ["name", "email", "password"],
         "type": "object",
@@ -219,5 +703,9 @@
         }
       }
     }
+  },
+
+  "security": {
+    "bearerAuth": []
   }
 }
