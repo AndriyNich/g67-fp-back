@@ -186,22 +186,46 @@
             "application/json": {}
           }
         },
-        "200": {
-          "description": "Successfull operation",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserAuthResponse"
+        "responses": {
+          "200": {
+            "description": "Successfull operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserAuthResponse"
+                }
               }
             }
-          }
-        },
-        "400": {
-          "description": "Bad request",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Unauthorized"
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "\"password\" is required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unathorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Email or password is wrong"
+                    }
+                  }
+                }
               }
             }
           }
@@ -212,16 +236,65 @@
       "patch": {
         "tags": ["user"],
         "summary": "Update information about current user and avatars",
+        "security": [{ "Bearer": [] }],
         "requestBody": {
           "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UserPatchRequestWithFile"
+              }
+            },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserLoginRequest"
+                "$ref": "#/components/schemas/UserPatchRequest"
               }
             }
           }
         },
-        "responses": null
+        "responses": {
+          "200": {
+            "description": "Successfull operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserPatchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "\"password\" is required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unathorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Email or password is wrong"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
 
@@ -233,36 +306,68 @@
           {
             "in": "query",
             "name": "page",
-            "required": true,
+            "required": false,
             "type": "strings",
             "description": "Page"
           },
           {
             "in": "query",
             "name": "limit",
-            "required": true,
+            "required": false,
             "type": "strings",
             "description": "Limit"
-          },
-          {
-            "in": "query",
-            "name": "title",
-            "required": true,
-            "type": "strings",
-            "description": "Title"
-          },
-          {
-            "in": "query",
-            "name": "category",
-            "required": true,
-            "type": "strings",
-            "description": "Category"
           }
         ],
+        "security": [{ "Bearer": [] }],
         "requestBody": {
-          "content": null
+          "content": {
+            "application/json": {}
+          }
         },
-        "responses": null
+        "responses": {
+          "200": {
+            "description": "Successfull operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PetResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "\"password\" is required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unathorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Email or password is wrong"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       },
       "post": {
         "tags": ["pet"],
@@ -598,22 +703,75 @@
           }
         }
       },
-
-      "User": {
-        "required": ["name", "email", "password"],
+      "UserPatchRequest": {
+        "required": ["name", "email"],
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string",
-            "description": "Backend-generated unique identifier."
-          },
           "name": {
             "type": "string",
             "example": "Mango1"
           },
           "email": {
             "type": "string",
-            "example": "mango1@gmail.com"
+            "example": "mango1@gmail.com",
+            "format": "email"
+          },
+          "birthday": {
+            "type": "string",
+            "example": "00.00.0000"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+380000000000"
+          },
+          "city": {
+            "type": "string",
+            "example": "Kiev"
+          }
+        }
+      },
+      "UserPatchRequestWithFile": {
+        "required": ["name", "email"],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Mango1"
+          },
+          "email": {
+            "type": "string",
+            "example": "mango1@gmail.com",
+            "format": "email"
+          },
+          "birthday": {
+            "type": "string",
+            "example": "00.00.0000"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+380000000000"
+          },
+          "city": {
+            "type": "string",
+            "example": "Kiev"
+          },
+          "avatar": {
+            "type": "string",
+            "format": "binary"
+          }
+        }
+      },
+      "UserPatchResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Mango1"
+          },
+          "email": {
+            "type": "string",
+            "example": "mango1@gmail.com",
+            "format": "email"
           },
           "birthday": {
             "type": "string",
@@ -628,43 +786,64 @@
             "example": "Kiev"
           },
           "avatarURL": {
-            "type": "string"
-          },
-          "password": {
             "type": "string",
-            "example": "123456"
+            "example": "https://res.cloudinary.com/duz0fredh/image/upload/v1690018006/default/avatarUser.png"
           }
         }
       },
-      "Pet": {
+
+      "PetResponse": {
         "required": ["options", "name"],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Backend-generated unique identifier."
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Backend-generated unique identifier."
+            },
+            "ownerId": {
+              "type": "string",
+              "description": "Backend get from token user."
+            },
+            "name": {
+              "type": "string"
+            },
+            "birthday": {
+              "type": "string",
+              "description": "тут треба подумати чи дату чи техт"
+            },
+            "type": {
+              "type": "string",
+              "description": "breed of animal"
+            },
+            "avatarURL": {
+              "type": "string"
+            },
+            "comments": {
+              "type": "string"
+            }
           },
-          "ownerId": {
-            "type": "string",
-            "description": "Backend get from token user."
-          },
-          "name": {
-            "type": "string"
-          },
-          "birthday": {
-            "type": "string",
-            "description": "тут треба подумати чи дату чи техт"
-          },
-          "type": {
-            "type": "string",
-            "description": "breed of animal"
-          },
-          "avatarURL": {
-            "type": "string"
-          },
-          "comments": {
-            "type": "string"
-          }
+          "example": [
+            {
+              "_id": "64bbc0c90d50f7d0800e272a",
+              "owner": "64bba39d138fec00adde2b47",
+              "name": "Vista",
+              "birthday": "01.01.2001",
+              "type": "Pers",
+              "comments": "",
+              "avatarURL": "https://res.cloudinary.com/duz0fredh/image/upload/v1690018006/default/avatarUser.png"
+            },
+            {
+              "_id": "64bbc8a9580ab0914768a763",
+              "owner": "64bba39d138fec00adde2b47",
+              "name": "Vista",
+              "birthday": "01.01.2001",
+              "type": "Pers",
+              "comments": "",
+              "avatarURL": "https://res.cloudinary.com/duz0fredh/image/upload/v1690018006/default/avatarUser.png"
+            }
+          ]
         }
       },
       "Notice": {
