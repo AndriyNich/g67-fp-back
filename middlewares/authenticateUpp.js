@@ -1,5 +1,3 @@
-// const { HttpError } = require('../helpers');
-
 const { SECRET_KEY } = process.env;
 
 const authenticateUpp = async (req, res, next) => {

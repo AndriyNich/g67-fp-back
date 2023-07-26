@@ -49,7 +49,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserRegisterResponse"
+                  "$ref": "#/components/schemas/UserAuthResponse"
                 }
               }
             }
@@ -108,7 +108,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserRegisterResponse"
+                  "$ref": "#/components/schemas/UserAuthResponse"
                 }
               }
             }
@@ -152,23 +152,60 @@
       "post": {
         "tags": ["user"],
         "summary": "Logout user",
-        "security": {
-          "beareAuth": []
-        },
+        "security": [{ "Bearer": [] }],
         "requestBody": {
-          "content": null
+          "content": {
+            "application/json": {}
+          }
         },
-        "responses": null
+        "responses": {
+          "204": {
+            "description": "No content",
+            "content": null
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/users/current": {
       "get": {
         "tags": ["user"],
         "summary": "Get information about current user",
+        "security": [{ "Bearer": [] }],
         "requestBody": {
-          "content": null
+          "content": {
+            "application/json": {}
+          }
         },
-        "responses": null
+        "200": {
+          "description": "Successfull operation",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserAuthResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Bad request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Unauthorized"
+              }
+            }
+          }
+        }
       }
     },
     "/users": {
@@ -176,7 +213,13 @@
         "tags": ["user"],
         "summary": "Update information about current user and avatars",
         "requestBody": {
-          "content": null
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserLoginRequest"
+              }
+            }
+          }
         },
         "responses": null
       }
@@ -486,8 +529,8 @@
   },
 
   "components": {
-    "securiteSchemes": {
-      "bearerAuth": {
+    "securitySchemes": {
+      "Bearer": {
         "type": "http",
         "scheme": "bearer",
         "bearerFormat": "JWT"
@@ -513,34 +556,6 @@
           }
         }
       },
-      "UserRegisterResponse": {
-        "type": "object",
-        "properties": {
-          "token": {
-            "type": "string",
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YmJhMzlkMTM4ZmVjMDBhZGRlMmI0NyIsImlhdCI6MTY5MDI4ODA5NywiZXhwIjoxNjkwMzc0NDk3fQ.JTsGap1ZHv3lrwvTHhbApAQrC4ED_l0DH40yDYtINhk"
-          },
-          "user": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string",
-                "example": "Mango1"
-              },
-              "email": {
-                "type": "string",
-                "example": "mango1@gmail.com",
-                "format": "email"
-              },
-              "avatarURL": {
-                "type": "string",
-                "example": "https://res.cloudinary.com/duz0fredh/image/upload/v1690286198/users/64bba39d138fec00adde2b47_.jpg"
-              }
-            }
-          }
-        }
-      },
-
       "UserLoginRequest": {
         "required": ["name", "email", "password"],
         "type": "object",
@@ -556,7 +571,7 @@
           }
         }
       },
-      "UserLoginResponse": {
+      "UserAuthResponse": {
         "type": "object",
         "properties": {
           "token": {
@@ -697,11 +712,16 @@
             "type": "number"
           }
         }
+      },
+      "Unauthorized": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Unauthorized"
+          }
+        }
       }
     }
-  },
-
-  "security": {
-    "bearerAuth": []
   }
 }
