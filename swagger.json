@@ -441,7 +441,7 @@
         "responses": null
       }
     },
-    "/notices/favorites/:id": {
+    "/notices/:id/favorites": {
       "delete": {
         "tags": ["notice"],
         "summary": "Delete notice by ID from favorites collection current user",

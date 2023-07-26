@@ -31,7 +31,7 @@ router.patch(
 router.delete('/:id', authenticate, isValidId, ctrl.deleteNoticeById);
 
 router.delete(
-  '/favorites/:id',
+  '/:id/favorites/',
   authenticate,
   isValidId,
   ctrl.deleteFavoriteById
