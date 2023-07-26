@@ -321,12 +321,29 @@
           "content": null
         },
         "responses": null
+      },
+      "delete": {
+        "tags": ["notice"],
+        "summary": "Delete notice by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "strings",
+            "description": "Notice's id for deleting"
+          }
+        ],
+        "requestBody": {
+          "content": null
+        },
+        "responses": null
       }
     },
-    "/notices/favorites": {
+    "/notices/users": {
       "get": {
         "tags": ["notice"],
-        "summary": "Get list all favorites notices for current user",
+        "summary": "Get list all notices created current user",
         "parameters": [
           {
             "in": "query",
@@ -363,10 +380,10 @@
         "responses": null
       }
     },
-    "/notices/users": {
+    "/notices/favorites": {
       "get": {
         "tags": ["notice"],
-        "summary": "Get list all notices created current user",
+        "summary": "Get list all favorites notices for current user",
         "parameters": [
           {
             "in": "query",
@@ -420,28 +437,7 @@
           "content": null
         },
         "responses": null
-      }
-    },
-    "/notices/:id": {
-      "delete": {
-        "tags": ["notice"],
-        "summary": "Delete notice by ID",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "type": "strings",
-            "description": "Notice's id for deleting"
-          }
-        ],
-        "requestBody": {
-          "content": null
-        },
-        "responses": null
-      }
-    },
-    "/notices/:id/favorites": {
+      },
       "delete": {
         "tags": ["notice"],
         "summary": "Delete notice by ID from favorites collection current user",
