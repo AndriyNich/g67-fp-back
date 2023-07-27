@@ -674,7 +674,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserAuthResponse"
+                  "$ref": "#/components/schemas/NewsResponse"
                 }
               }
             }
@@ -897,6 +897,100 @@
           ]
         }
       },
+
+      "NewsResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "news": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                    "description": "Backend-generated unique identifier."
+                  },
+                  "imgUrl": {
+                    "type": "string",
+                    "description": "Path to img."
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "Title news"
+                  },
+                  "text": {
+                    "type": "string",
+                    "description": "Comments about news"
+                  },
+                  "date": {
+                    "type": "string",
+                    "description": "Date where news created"
+                  },
+                  "url": {
+                    "type": "string",
+                    "description": "Path to text news"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Id news on parent web site "
+                  }
+                }
+              }
+            },
+            "totalCount": {
+              "type": "string",
+              "description": "Total count records in DB"
+            },
+            "page": {
+              "type": "integer",
+              "description": "Page number"
+            },
+            "perPage": {
+              "type": "integer",
+              "description": "Items per page"
+            }
+          }
+        },
+        "example": [
+          {
+            "news": [
+              {
+                "_id": "64c21d5a5606e66f7eae1983",
+                "imgUrl": "https://www.nytimes.com/images/2021/07/18/arts/18surfacing-pet-tube-thmpsn1/merlin_189296613_5ff83b6b-c0e4-44be-91eb-e967f5b5aba2-blog480.jpg",
+                "title": "Vocabulary in Context: Exotic Pets",
+                "text": "Test your vocabulary and reading comprehension with this quiz based on the Times article \"The Internet’s Exotic Pets, and the People Who Love Them.\"",
+                "date": "2022-01-13T10:00:01+0000",
+                "url": "https://www.nytimes.com/interactive/2022/01/13/learning/13VocabQuizLN.html",
+                "id": "nyt://interactive/9c204162-4ad2-56b5-8805-d02a6d950ceb"
+              },
+              {
+                "_id": "64c21d5a5606e66f7eae198f",
+                "imgUrl": "https://www.nytimes.com/images/2022/04/12/world/12ukraine-blog-veterinarian/merlin_203762100_fe5248ef-595f-42bc-9151-457f2b2ed50c-blog480.jpg",
+                "title": "Ukrainian refugees find shelter, and a hearty welcome for their pets, in Romania.",
+                "text": "Viktor and Rachel Borovic had only two hours to prepare to flee their city. But they were clear about what was important to them.",
+                "date": "2022-03-13T19:47:34+0000",
+                "url": "https://www.nytimes.com/2022/03/13/world/europe/ukraine-romania-refugee-shelter-pets.html",
+                "id": "nyt://article/553bdb02-72b9-50b2-a3ae-e8e4c83c19bb"
+              },
+              {
+                "_id": "64c21d5a5606e66f7eae1990",
+                "imgUrl": "https://www.nytimes.com/images/2022/04/17/magazine/17mag-LOR/17mag-LOR-blog480-v2.jpg",
+                "title": "Rabbits Are Boring Pets. I Love Them Anyway.",
+                "text": "My friends and family don’t get it. All I can do is try to describe what it’s like to be with them, the moments I’m not sure I can do without.",
+                "date": "2022-04-12T09:00:13+0000",
+                "url": "https://www.nytimes.com/2022/04/12/magazine/rabbits-pets.html",
+                "id": "nyt://article/affcb8e8-70c5-5c3e-a289-3c56a763fb2e"
+              }
+            ],
+            "totalCount": "48",
+            "page": "2",
+            "perPage": "3"
+          }
+        ]
+      },
+
       "Notice": {
         "required": ["options", "name", "sex"],
         "type": "object",

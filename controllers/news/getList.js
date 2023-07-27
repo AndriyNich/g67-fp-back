@@ -12,6 +12,16 @@ const getList = async (req, res) => {
   const result = await News.aggregate([
     { $match: queryString },
     {
+      $project: {
+        imgUrl: '$imgUrl',
+        title: '$title',
+        text: '$text',
+        date: '$date',
+        url: '$url',
+        id: '$id',
+      },
+    },
+    {
       $facet: {
         totalCount: [{ $count: 'count' }],
         news: [{ $skip: Number(skip) }, { $limit: Number(limit) }],
