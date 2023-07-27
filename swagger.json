@@ -26,6 +26,10 @@
     {
       "name": "friend",
       "description": "Operation about friends"
+    },
+    {
+      "name": "news",
+      "description": "Operation about news"
     }
   ],
 
@@ -629,6 +633,53 @@
           "content": null
         },
         "responses": null
+      }
+    },
+
+    "/news": {
+      "get": {
+        "tags": ["news"],
+        "summary": "Get list friends",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "type": "strings",
+            "description": "Page"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "type": "strings",
+            "description": "Limit"
+          },
+          {
+            "in": "query",
+            "name": "title",
+            "required": false,
+            "type": "strings",
+            "description": "keyword from news title "
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfull operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserAuthResponse"
+                }
+              }
+            }
+          }
+        }
       }
     }
   },

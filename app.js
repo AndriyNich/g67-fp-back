@@ -12,6 +12,7 @@ const app = express();
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 const { friendRouter } = require('./routes/friend');
+const { newsRouter } = require('./routes/news');
 
 const formatLog = app.get('env') === 'development' ? 'dev' : 'short';
 
@@ -26,6 +27,8 @@ app.use('/api/pets', petRouter);
 app.use('/api/notices', noticeRouter);
 
 app.use('/api/friends', friendRouter);
+
+app.use('/api/news', newsRouter);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
