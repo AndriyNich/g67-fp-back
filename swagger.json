@@ -624,10 +624,58 @@
       "post": {
         "tags": ["notice"],
         "summary": "Add new notice",
+        "security": [{ "Bearer": [] }],
         "requestBody": {
-          "content": null
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/NoticeRequestWithFile"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NoticeRequest"
+              }
+            }
+          }
         },
         "responses": {
+          "201": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NoticeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "\"field's name\" is required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal server error",
             "content": {
@@ -641,7 +689,7 @@
         }
       }
     },
-    "/notices/:id": {
+    "/notices/{id}": {
       "get": {
         "tags": ["notice"],
         "summary": "Get notice by ID",
@@ -655,9 +703,37 @@
           }
         ],
         "requestBody": {
-          "content": null
+          "content": {
+            "application/json": {}
+          }
         },
         "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NoticeAndUserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "\"field's name\" is required"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal server error",
             "content": {
@@ -673,6 +749,7 @@
       "delete": {
         "tags": ["notice"],
         "summary": "Delete notice by ID",
+        "security": [{ "Bearer": [] }],
         "parameters": [
           {
             "in": "path",
@@ -683,9 +760,59 @@
           }
         ],
         "requestBody": {
-          "content": null
+          "content": {
+            "application/json": {}
+          }
         },
         "responses": {
+          "200": {
+            "description": "Delete success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Delete success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "4132413241324123 is not valid id"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found or The notice belongs to another user"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal server error",
             "content": {
@@ -1163,7 +1290,8 @@
             "description": "breed of animal"
           },
           "avatar": {
-            "type": "string"
+            "type": "string",
+            "format": "binary"
           },
           "comments": {
             "type": "string"
@@ -1279,6 +1407,113 @@
         ]
       },
 
+      "NoticeRequest": {
+        "required": [
+          "category",
+          "name",
+          "birthday",
+          "type",
+          "title",
+          "sex",
+          "location"
+        ],
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "enum": ["sell", "lost-found", "for-free"]
+          },
+          "name": {
+            "type": "string"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "birthday of animal"
+          },
+          "type": {
+            "type": "string",
+            "description": "breed of animal"
+          },
+          "title": {
+            "type": "string",
+            "example": "Cute dog looking for a home"
+          },
+          "comments": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "sex": {
+            "type": "string",
+            "enum": ["femail", "mail"]
+          },
+          "price": {
+            "type": "number"
+          }
+        },
+        "example": {
+          "category": "sell",
+          "name": "Ttriksy",
+          "birthday": "23-03-21",
+          "type": "seberian",
+          "title": "Dog & cat & mouse",
+          "sex": "female",
+          "location": "Brovary"
+        }
+      },
+      "NoticeRequestWithFile": {
+        "required": [
+          "category",
+          "name",
+          "birthday",
+          "type",
+          "title",
+          "sex",
+          "location",
+          "avatar"
+        ],
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "enum": ["sell", "lost-found", "for-free"]
+          },
+          "name": {
+            "type": "string"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "birthday of animal"
+          },
+          "type": {
+            "type": "string",
+            "description": "breed of animal"
+          },
+          "title": {
+            "type": "string",
+            "example": "Cute dog looking for a home"
+          },
+          "comments": {
+            "type": "string"
+          },
+          "sex": {
+            "type": "string",
+            "enum": ["femail", "mail"]
+          },
+          "location": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "avatar": {
+            "type": "string",
+            "format": "binary"
+          }
+        }
+      },
+
       "NoticesListResponse": {
         "type": "array",
         "items": {
@@ -1289,7 +1524,7 @@
               "items": {
                 "type": "object",
                 "properties": {
-                  "id": {
+                  "_id": {
                     "type": "string",
                     "description": "Backend-generated unique identifier."
                   },
@@ -1320,6 +1555,9 @@
                     "example": "Cute dog looking for a home"
                   },
                   "comments": {
+                    "type": "string"
+                  },
+                  "location": {
                     "type": "string"
                   },
                   "sex": {
@@ -1386,6 +1624,164 @@
             "perPage": "2"
           }
         ]
+      },
+      "NoticeResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Backend-generated unique identifier."
+          },
+          "ownerId": {
+            "type": "string",
+            "description": "Backend get from token user."
+          },
+          "category": {
+            "type": "string",
+            "enum": ["sell", "lost-found", "for-free"]
+          },
+          "name": {
+            "type": "string"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "birthday of animal"
+          },
+          "type": {
+            "type": "string",
+            "description": "breed of animal"
+          },
+          "avatarURL": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string",
+            "example": "Cute dog looking for a home"
+          },
+          "comments": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "sex": {
+            "type": "string",
+            "enum": ["femail", "mail"]
+          },
+          "price": {
+            "type": "number"
+          }
+        },
+        "example": {
+          "notice": {
+            "_id": "64bd804ac565ed4e984b8075",
+            "owner": "64bba39d138fec00adde2b47",
+            "category": "sell",
+            "name": "Ttriksy",
+            "birthday": "23-03-21",
+            "type": "seberian",
+            "avatarURL": "https://res.cloudinary.com/duz0fredh/image/upload/v1690018006/default/avatarUser.png",
+            "title": "Dog & cat & mouse",
+            "sex": "female",
+            "price": 0,
+            "comments": "",
+            "location": "Brovary",
+            "createdAt": "2023-07-23T19:32:26.651Z",
+            "updatedAt": "2023-07-23T19:32:26.651Z"
+          }
+        }
+      },
+      "NoticeAndUserResponse": {
+        "type": "object",
+        "properties": {
+          "notice": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "description": "Backend-generated unique identifier."
+              },
+              "ownerId": {
+                "type": "string",
+                "description": "Backend get from token user."
+              },
+              "category": {
+                "type": "string",
+                "enum": ["sell", "lost-found", "for-free"]
+              },
+              "name": {
+                "type": "string"
+              },
+              "birthday": {
+                "type": "string",
+                "description": "birthday of animal"
+              },
+              "type": {
+                "type": "string",
+                "description": "breed of animal"
+              },
+              "avatarURL": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string",
+                "example": "Cute dog looking for a home"
+              },
+              "comments": {
+                "type": "string"
+              },
+              "location": {
+                "type": "string"
+              },
+              "sex": {
+                "type": "string",
+                "enum": ["femail", "mail"]
+              },
+              "price": {
+                "type": "number"
+              },
+              "favorite": {
+                "type": "boolean"
+              }
+            }
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "phone": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "example": {
+          "notice": {
+            "_id": "64bd804ac565ed4e984b8075",
+            "owner": "64bba39d138fec00adde2b47",
+            "category": "sell",
+            "name": "Ttriksy",
+            "birthday": "23-03-21",
+            "type": "seberian",
+            "avatarURL": "https://res.cloudinary.com/duz0fredh/image/upload/v1690018006/default/avatarUser.png",
+            "title": "Dog & cat & mouse",
+            "sex": "female",
+            "price": 0,
+            "comments": "",
+            "location": "Brovary",
+            "favorite": false
+          },
+          "user": {
+            "_id": "64bba39d138fec00adde2b47",
+            "email": "mango5@gmail.com",
+            "phone": "+380660123456"
+          }
+        }
       },
 
       "Notice": {
