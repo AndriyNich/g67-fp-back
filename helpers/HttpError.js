@@ -1,7 +1,7 @@
 const errorMessageList = require('../constants');
 
 const HttpError = (status, message = errorMessageList[status]) => {
-  console.log(`HttpError: ${message}`);
+  console.log(`status: ${status}, message: ${message}`);
 
   const error = new Error(message);
   error.status = status;

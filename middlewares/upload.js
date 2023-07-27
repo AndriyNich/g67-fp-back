@@ -1,19 +1,3 @@
-// const multer = require('multer');
-// const path = require('path');
-// // const { pathToFile } = require('../constants');
-
-// const tempDir = path.join(__dirname, '../', 'temp');
-
-// const multerConfig = multer.diskStorage({
-//   destination: tempDir,
-// });
-
-// const upload = multer({
-//   storage: multerConfig,
-// });
-
-// module.exports = upload;
-
 const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const multer = require('multer');
