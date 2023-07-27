@@ -1,19 +1,19 @@
-const { User } = require('../../models/user');
-const { Notice } = require('../../models/notice');
+const { User } = require("../../models/user");
+const { Notice } = require("../../models/notice");
 
-const { default: mongoose } = require('mongoose');
+const { default: mongoose } = require("mongoose");
 
 const getFavoriteListByUserId = async (req, res) => {
   const { _id: id } = req.user;
 
-  const { page = 1, limit = 20, title = '', category = '' } = req.query;
+  const { page = 1, limit = 20, title = "", category = "" } = req.query;
   const skip = (page - 1) * limit;
 
   let queryString = {};
   if (title) {
     queryString = {
       ...queryString,
-      title: { $regex: title, $options: 'i' },
+      title: { $regex: title, $options: "i" },
     };
   }
 
@@ -21,7 +21,7 @@ const getFavoriteListByUserId = async (req, res) => {
     queryString = { ...queryString, category };
   }
 
-  const { favorites } = await User.findById(id, 'favorites');
+  const { favorites } = await User.findById(id, "favorites");
 
   const ids = favorites.map((el) => new mongoose.Types.ObjectId(el));
 
@@ -31,15 +31,15 @@ const getFavoriteListByUserId = async (req, res) => {
     { $match: queryString },
     {
       $facet: {
-        totalCount: [{ $count: 'count' }],
+        totalCount: [{ $count: "count" }],
         favorites: [{ $skip: Number(skip) }, { $limit: Number(limit) }],
       },
     },
     {
       $project: {
-        totalCount: { $arrayElemAt: ['$totalCount.count', 0] },
-        page: page,
-        perPage: limit,
+        totalCount: { $arrayElemAt: ["$totalCount.count", 0] },
+        page: { $cond: { if: { $eq: [page, 1] }, then: 1, else: page } },
+        perPage: { $cond: { if: { $eq: [limit, 20] }, then: 20, else: limit } },
         favorites: 1,
       },
     },

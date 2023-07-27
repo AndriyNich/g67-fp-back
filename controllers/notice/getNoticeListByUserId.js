@@ -1,14 +1,14 @@
-const { Notice } = require('../../models/notice');
+const { Notice } = require("../../models/notice");
 
 const getNoticeListByUserId = async (req, res) => {
   const { _id: owner } = req.user;
-  const { page = 1, limit = 20, title = '', category = '' } = req.query;
+  const { page = 1, limit = 20, title = "", category = "" } = req.query;
   const skip = (page - 1) * limit;
 
   let queryString = { owner };
 
   if (title) {
-    queryString = { ...queryString, title: { $regex: title, $options: 'i' } };
+    queryString = { ...queryString, title: { $regex: title, $options: "i" } };
   }
 
   if (category) {
@@ -19,15 +19,15 @@ const getNoticeListByUserId = async (req, res) => {
     { $match: queryString },
     {
       $facet: {
-        totalCount: [{ $count: 'count' }],
+        totalCount: [{ $count: "count" }],
         notices: [{ $skip: Number(skip) }, { $limit: Number(limit) }],
       },
     },
     {
       $project: {
-        totalCount: { $arrayElemAt: ['$totalCount.count', 0] },
-        page: page,
-        perPage: limit,
+        totalCount: { $arrayElemAt: ["$totalCount.count", 0] },
+        page: { $cond: { if: { $eq: [page, 1] }, then: 1, else: page } },
+        perPage: { $cond: { if: { $eq: [limit, 20] }, then: 20, else: limit } },
         notices: 1,
       },
     },
