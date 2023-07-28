@@ -1,7 +1,7 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
-const { User } = require('../../models/user');
-const { HttpError, createTokenForUserId } = require('../../helpers');
+const { User } = require("../../models/users");
+const { HttpError, createTokenForUserId } = require("../../helpers");
 
 const register = async (req, res) => {
   const { email, password } = req.body;
@@ -10,7 +10,7 @@ const register = async (req, res) => {
 
   const user = await User.findOne({ email });
   if (user) {
-    throw HttpError(409, 'Email already in use');
+    throw HttpError(409, "Email already in use");
   }
 
   const hashPassword = await bcrypt.hash(password, 10);

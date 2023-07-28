@@ -1,9 +1,9 @@
-const { Pet } = require('../../models/pet');
+const { Pet } = require("../../models/pets");
 
 const getPets = async (req, res) => {
   const { _id: owner } = req.user;
 
-  const result = await Pet.find({ owner }, '-createdAt -updatedAt');
+  const result = await Pet.find({ owner }, "-createdAt -updatedAt");
   res.json(result);
 };
 

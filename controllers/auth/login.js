@@ -1,9 +1,9 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
-const { User } = require('../../models/user');
-const { HttpError, createTokenForUserId } = require('../../helpers');
+const { User } = require("../../models/users");
+const { HttpError, createTokenForUserId } = require("../../helpers");
 
-const messageConnectInvalid = 'Email or password is wrong';
+const messageConnectInvalid = "Email or password is wrong";
 
 const login = async (req, res) => {
   const { email, password } = req.body;

@@ -1,4 +1,4 @@
-const { Notice } = require('../../models/notice');
+const { Notice } = require("../../models/notices");
 
 const addNotice = async (req, res) => {
   const { _id: owner } = req.user;

@@ -1,7 +1,7 @@
-const { User } = require('../../models/user');
-const { Notice } = require('../../models/notice');
+const { User } = require("../../models/users");
+const { Notice } = require("../../models/notices");
 
-const { HttpError } = require('../../helpers');
+const { HttpError } = require("../../helpers");
 
 const addNoticeByIdToUserFavorite = async (req, res) => {
   const { _id } = req.user;
@@ -10,7 +10,7 @@ const addNoticeByIdToUserFavorite = async (req, res) => {
   const resultNotice = await Notice.findById(id);
 
   if (!resultNotice) {
-    throw HttpError(404, 'The notice not found');
+    throw HttpError(404, "The notice not found");
   }
 
   await User.findByIdAndUpdate(
@@ -22,7 +22,7 @@ const addNoticeByIdToUserFavorite = async (req, res) => {
   );
 
   res.status(200).json({
-    message: 'The notice has been successfully added to your favorites',
+    message: "The notice has been successfully added to your favorites",
   });
 };
 

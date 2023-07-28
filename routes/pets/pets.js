@@ -1,7 +1,7 @@
 const express = require("express");
 
-const ctrl = require("../../controllers/pet");
-const { addSchema } = require("../../models/pet");
+const ctrl = require("../../controllers/pets");
+const { addSchema } = require("../../models/pets");
 
 const {
   validateBody,
