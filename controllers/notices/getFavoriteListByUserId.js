@@ -1,25 +1,17 @@
+const { default: mongoose } = require("mongoose");
+
 const { User } = require("../../models/users");
 const { Notice } = require("../../models/notices");
 
-const { default: mongoose } = require("mongoose");
+const { getPaginationFields, getQueryString } = require("../../helpers");
 
 const getFavoriteListByUserId = async (req, res) => {
   const { _id: id } = req.user;
-
-  const { page = 1, limit = 20, title = "", category = "" } = req.query;
-  const skip = (page - 1) * limit;
-
-  let queryString = {};
-  if (title) {
-    queryString = {
-      ...queryString,
-      title: { $regex: title, $options: "i" },
-    };
-  }
-
-  if (category) {
-    queryString = { ...queryString, category };
-  }
+  const { page, skip, limit } = getPaginationFields(req);
+  let { queryString } = Object.create(getQueryString)
+    .setRequest(req)
+    .addTitle()
+    .addCategory();
 
   const { favorites } = await User.findById(id, "favorites");
 

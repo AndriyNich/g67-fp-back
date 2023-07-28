@@ -1,18 +1,14 @@
 const { Notice } = require("../../models/notices");
 const { User } = require("../../models/users");
 
+const { getPaginationFields, getQueryString } = require("../../helpers");
+
 const getList = async (req, res) => {
-  const { page = 1, limit = 20, title = "", category = "" } = req.query;
-  const skip = (page - 1) * limit;
-
-  let queryString = {};
-  if (title) {
-    queryString = { ...queryString, title: { $regex: title, $options: "i" } };
-  }
-
-  if (category) {
-    queryString = { ...queryString, category };
-  }
+  const { page, skip, limit } = getPaginationFields(req);
+  const { queryString } = Object.create(getQueryString)
+    .setRequest(req)
+    .addTitle()
+    .addCategory();
 
   const result = await Notice.aggregate([
     { $match: queryString },

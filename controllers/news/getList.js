@@ -1,26 +1,16 @@
 const { News } = require("../../models/news");
 
-const getList = async (req, res) => {
-  const { page = 1, limit = 20, title = "" } = req.query;
-  const skip = (page - 1) * limit;
+const { getPaginationFields, getQueryString } = require("../../helpers");
 
-  let queryString = {};
-  if (title) {
-    queryString = { ...queryString, title: { $regex: title, $options: "i" } };
-  }
+const getList = async (req, res) => {
+  const { page, skip, limit } = getPaginationFields(req);
+  const { queryString } = Object.create(getQueryString)
+    .setRequest(req)
+    .addTitle();
 
   const result = await News.aggregate([
     { $match: queryString },
-    {
-      $project: {
-        imgUrl: "$imgUrl",
-        title: "$title",
-        text: "$text",
-        date: "$date",
-        url: "$url",
-        id: "$id",
-      },
-    },
+    { $project: { createdAt: 0, updatedAt: 0 } },
     {
       $facet: {
         totalCount: [{ $count: "count" }],

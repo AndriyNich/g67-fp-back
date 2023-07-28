@@ -1,20 +1,15 @@
 const { Notice } = require("../../models/notices");
 const { User } = require("../../models/users");
 
+const { getPaginationFields, getQueryString } = require("../../helpers");
+
 const getNoticeListByUserId = async (req, res) => {
-  const { _id: owner } = req.user;
-  const { page = 1, limit = 20, title = "", category = "" } = req.query;
-  const skip = (page - 1) * limit;
-
-  let queryString = { owner };
-
-  if (title) {
-    queryString = { ...queryString, title: { $regex: title, $options: "i" } };
-  }
-
-  if (category) {
-    queryString = { ...queryString, category };
-  }
+  const { page, skip, limit } = getPaginationFields(req);
+  const { queryString } = Object.create(getQueryString)
+    .setRequest(req)
+    .addTitle()
+    .addCategory()
+    .addOwner();
 
   const result = await Notice.aggregate([
     { $match: queryString },

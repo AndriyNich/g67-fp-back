@@ -1,8 +1,9 @@
 const { Friend } = require("../../models/friends");
 
+const { getPaginationFields } = require("../../helpers");
+
 const getList = async (req, res) => {
-  const { page = 1, limit = 20 } = req.query;
-  const skip = (page - 1) * limit;
+  const { page, skip, limit } = getPaginationFields(req);
 
   const result = await Friend.aggregate([
     { $match: {} },
