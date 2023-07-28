@@ -830,40 +830,79 @@
       "get": {
         "tags": ["notice"],
         "summary": "Get list all notices created current user",
+        "security": [{ "Bearer": [] }],
         "parameters": [
           {
             "in": "query",
             "name": "page",
-            "required": true,
+            "required": false,
             "type": "strings",
             "description": "Page"
           },
           {
             "in": "query",
             "name": "limit",
-            "required": true,
+            "required": false,
             "type": "strings",
             "description": "Limit"
           },
           {
             "in": "query",
             "name": "title",
-            "required": true,
+            "required": false,
             "type": "strings",
             "description": "Title"
           },
           {
             "in": "query",
             "name": "category",
-            "required": true,
+            "required": false,
             "type": "strings",
             "description": "Category"
           }
         ],
         "requestBody": {
-          "content": null
+          "content": {
+            "application/json": {}
+          }
         },
         "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NoticesListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "\"field's name\" is required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal server error",
             "content": {
@@ -1619,7 +1658,7 @@
                 "updatedAt": "2023-07-25T12:45:38.263Z"
               }
             ],
-            "totalCount": "8",
+            "totalCount": 8,
             "page": "1",
             "perPage": "2"
           }
@@ -1941,7 +1980,7 @@
                 "email": "hello@happypaw.ua"
               }
             ],
-            "totalCount": "48",
+            "totalCount": 48,
             "page": "1",
             "perPage": "2"
           }
@@ -2033,7 +2072,7 @@
                 "id": "nyt://article/affcb8e8-70c5-5c3e-a289-3c56a763fb2e"
               }
             ],
-            "totalCount": "48",
+            "totalCount": 48,
             "page": "2",
             "perPage": "3"
           }
