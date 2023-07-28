@@ -962,7 +962,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/NoticesListResponse"
+                  "$ref": "#/components/schemas/NoticesFavoritesListResponse"
                 }
               }
             }
@@ -1026,6 +1026,24 @@
           }
         },
         "responses": {
+          "200": {
+            "description": "Successfull operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "message": "The notice has been successfully added to your favorites"
+                  }
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad request",
             "content": {
@@ -1052,6 +1070,22 @@
               }
             }
           },
+          "404": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found or The notice belongs to another user"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal server error",
             "content": {
@@ -1067,6 +1101,7 @@
       "delete": {
         "tags": ["notice"],
         "summary": "Delete notice by ID from favorites collection current user",
+        "security": [{ "Bearer": [] }],
         "parameters": [
           {
             "in": "path",
@@ -1077,9 +1112,69 @@
           }
         ],
         "requestBody": {
-          "content": null
+          "content": {
+            "application/json": {}
+          }
         },
         "responses": {
+          "200": {
+            "description": "Delete success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Delete success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "\"field's name\" is required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found or The notice belongs to another user"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal server error",
             "content": {
@@ -1694,6 +1789,117 @@
         "example": [
           {
             "notices": [
+              {
+                "_id": "64bd804ac565ed4e984b8075",
+                "owner": "64bba39d138fec00adde2b47",
+                "category": "sell",
+                "name": "Ttriksy",
+                "birthday": "23-03-21",
+                "type": "seberian",
+                "avatarURL": "https://res.cloudinary.com/duz0fredh/image/upload/v1690018006/default/avatarUser.png",
+                "title": "Dog & cat & mouse",
+                "sex": "female",
+                "price": 0,
+                "comments": "",
+                "location": "Brovary",
+                "createdAt": "2023-07-23T19:32:26.651Z",
+                "updatedAt": "2023-07-23T19:32:26.651Z"
+              },
+              {
+                "_id": "64bfc3f2aa599bb2b6ee71f0",
+                "owner": "64bba39d138fec00adde2b47",
+                "category": "for-free",
+                "name": "Lazy",
+                "birthday": "25-02-2022",
+                "type": "green",
+                "avatarURL": "https://res.cloudinary.com/duz0fredh/image/upload/v1690018006/default/avatarUser.png",
+                "sex": "female",
+                "price": 0,
+                "comments": "",
+                "location": "New York",
+                "createdAt": "2023-07-25T12:45:38.263Z",
+                "updatedAt": "2023-07-25T12:45:38.263Z"
+              }
+            ],
+            "totalCount": 8,
+            "page": "1",
+            "perPage": "2"
+          }
+        ]
+      },
+      "NoticesFavoritesListResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "favorites": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                    "description": "Backend-generated unique identifier."
+                  },
+                  "ownerId": {
+                    "type": "string",
+                    "description": "Backend get from token user."
+                  },
+                  "category": {
+                    "type": "string",
+                    "enum": ["sell", "lost-found", "for-free"]
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "birthday": {
+                    "type": "string",
+                    "description": "birthday of animal"
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "breed of animal"
+                  },
+                  "avatarURL": {
+                    "type": "string"
+                  },
+                  "title": {
+                    "type": "string",
+                    "example": "Cute dog looking for a home"
+                  },
+                  "comments": {
+                    "type": "string"
+                  },
+                  "location": {
+                    "type": "string"
+                  },
+                  "sex": {
+                    "type": "string",
+                    "enum": ["femail", "mail"]
+                  },
+                  "price": {
+                    "type": "number"
+                  }
+                }
+              }
+            },
+            "totalCount": {
+              "type": "string",
+              "description": "Total count records in DB"
+            },
+            "page": {
+              "type": "integer",
+              "description": "Page number"
+            },
+            "perPage": {
+              "type": "integer",
+              "description": "Items per page"
+            }
+          }
+        },
+        "example": [
+          {
+            "favorites": [
               {
                 "_id": "64bd804ac565ed4e984b8075",
                 "owner": "64bba39d138fec00adde2b47",
