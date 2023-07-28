@@ -22,7 +22,7 @@ router.post(
 );
 
 router.patch(
-  '/:id/users',
+  '/:id/favorites',
   authenticate,
   isValidId,
   ctrl.addNoticeByIdToUserFavorite
