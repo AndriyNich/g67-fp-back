@@ -1767,6 +1767,9 @@
                   },
                   "price": {
                     "type": "number"
+                  },
+                  "favorite": {
+                    "type": "boolean"
                   }
                 }
               }
@@ -1801,8 +1804,7 @@
                 "price": 0,
                 "comments": "",
                 "location": "Brovary",
-                "createdAt": "2023-07-23T19:32:26.651Z",
-                "updatedAt": "2023-07-23T19:32:26.651Z"
+                "favorite": false
               },
               {
                 "_id": "64bfc3f2aa599bb2b6ee71f0",
@@ -1816,8 +1818,7 @@
                 "price": 0,
                 "comments": "",
                 "location": "New York",
-                "createdAt": "2023-07-25T12:45:38.263Z",
-                "updatedAt": "2023-07-25T12:45:38.263Z"
+                "favorite": false
               }
             ],
             "totalCount": 8,
@@ -1878,6 +1879,9 @@
                   },
                   "price": {
                     "type": "number"
+                  },
+                  "favorite": {
+                    "type": "boolean"
                   }
                 }
               }
@@ -1912,8 +1916,7 @@
                 "price": 0,
                 "comments": "",
                 "location": "Brovary",
-                "createdAt": "2023-07-23T19:32:26.651Z",
-                "updatedAt": "2023-07-23T19:32:26.651Z"
+                "favorite": false
               },
               {
                 "_id": "64bfc3f2aa599bb2b6ee71f0",
@@ -1927,8 +1930,7 @@
                 "price": 0,
                 "comments": "",
                 "location": "New York",
-                "createdAt": "2023-07-25T12:45:38.263Z",
-                "updatedAt": "2023-07-25T12:45:38.263Z"
+                "favorite": false
               }
             ],
             "totalCount": 8,
@@ -1982,6 +1984,9 @@
           },
           "price": {
             "type": "number"
+          },
+          "favorite": {
+            "type": "boolean"
           }
         },
         "example": {
@@ -1998,8 +2003,7 @@
             "price": 0,
             "comments": "",
             "location": "Brovary",
-            "createdAt": "2023-07-23T19:32:26.651Z",
-            "updatedAt": "2023-07-23T19:32:26.651Z"
+            "favorite": false
           }
         }
       },

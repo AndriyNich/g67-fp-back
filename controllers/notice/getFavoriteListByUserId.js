@@ -29,6 +29,8 @@ const getFavoriteListByUserId = async (req, res) => {
 
   const result = await Notice.aggregate([
     { $match: queryString },
+    { $addFields: { favorite: true } },
+    { $project: { createdAt: 0, updatedAt: 0 } },
     {
       $facet: {
         totalCount: [{ $count: "count" }],

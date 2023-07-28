@@ -1,4 +1,5 @@
 const { Notice } = require("../../models/notice");
+const { User } = require("../../models/user");
 
 const getNoticeListByUserId = async (req, res) => {
   const { _id: owner } = req.user;
@@ -17,6 +18,8 @@ const getNoticeListByUserId = async (req, res) => {
 
   const result = await Notice.aggregate([
     { $match: queryString },
+    { $addFields: { favorite: false } },
+    { $project: { createdAt: 0, updatedAt: 0 } },
     {
       $facet: {
         totalCount: [{ $count: "count" }],
@@ -32,6 +35,16 @@ const getNoticeListByUserId = async (req, res) => {
       },
     },
   ]);
+
+  if (req?.user?._id) {
+    const { favorites } = await User.findById(req.user._id, "favorites");
+
+    result[0].notices.forEach((e) => {
+      if (favorites.includes(e._id)) {
+        e.favorite = true;
+      }
+    });
+  }
 
   res.json(result);
 };
