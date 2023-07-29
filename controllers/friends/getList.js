@@ -1,6 +1,7 @@
 const { Friend } = require("../../models/friends");
 
 const { getPaginationFields } = require("../../helpers");
+const { PER_PAGE } = require("../../constants");
 
 const getList = async (req, res) => {
   const { page, skip, limit } = getPaginationFields(req);
@@ -28,9 +29,13 @@ const getList = async (req, res) => {
     {
       $project: {
         totalCount: { $arrayElemAt: ["$totalCount.count", 0] },
-        page: { $cond: { if: { $eq: [page, 1] }, then: "1", else: page } },
+        page: { $cond: { if: { $eq: [page, 1] }, then: 1, else: page } },
         perPage: {
-          $cond: { if: { $eq: [limit, 20] }, then: "20", else: limit },
+          $cond: {
+            if: { $eq: [limit, PER_PAGE] },
+            then: "PER_PAGE",
+            else: limit,
+          },
         },
         friends: 1,
       },

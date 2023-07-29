@@ -1,5 +1,3 @@
-// const getQueryString = (req) => {};
-
 const getQueryString = {
   queryString: {},
   request: {},

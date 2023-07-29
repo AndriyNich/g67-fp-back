@@ -2,6 +2,7 @@ const { Notice } = require("../../models/notices");
 const { User } = require("../../models/users");
 
 const { getPaginationFields, getQueryString } = require("../../helpers");
+const { PER_PAGE } = require("../../constants");
 
 const getList = async (req, res) => {
   const { page, skip, limit } = getPaginationFields(req);
@@ -24,7 +25,13 @@ const getList = async (req, res) => {
       $project: {
         totalCount: { $arrayElemAt: ["$totalCount.count", 0] },
         page: { $cond: { if: { $eq: [page, 1] }, then: 1, else: page } },
-        perPage: { $cond: { if: { $eq: [limit, 20] }, then: 20, else: limit } },
+        perPage: {
+          $cond: {
+            if: { $eq: [limit, PER_PAGE] },
+            then: PER_PAGE,
+            else: limit,
+          },
+        },
         notices: 1,
       },
     },

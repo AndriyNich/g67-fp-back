@@ -4,6 +4,7 @@ const { User } = require("../../models/users");
 const { Notice } = require("../../models/notices");
 
 const { getPaginationFields, getQueryString } = require("../../helpers");
+const { PER_PAGE } = require("../../constants");
 
 const getFavoriteListByUserId = async (req, res) => {
   const { _id: id } = req.user;
@@ -33,7 +34,13 @@ const getFavoriteListByUserId = async (req, res) => {
       $project: {
         totalCount: { $arrayElemAt: ["$totalCount.count", 0] },
         page: { $cond: { if: { $eq: [page, 1] }, then: 1, else: page } },
-        perPage: { $cond: { if: { $eq: [limit, 20] }, then: 20, else: limit } },
+        perPage: {
+          $cond: {
+            if: { $eq: [limit, PER_PAGE] },
+            then: PER_PAGE,
+            else: limit,
+          },
+        },
         favorites: 1,
       },
     },
