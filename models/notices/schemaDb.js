@@ -41,7 +41,12 @@ const noticeSchema = new Schema(
     },
     price: {
       type: Number,
-      default: 0,
+      required: [
+        function () {
+          return this.category === "sell";
+        },
+        "For category = 'sel' field price is required ",
+      ],
     },
     comments: {
       type: String,

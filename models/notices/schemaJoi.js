@@ -5,17 +5,22 @@ const { categoryNoticeList, sexPetList } = require("../../constants");
 const addSchema = Joi.object({
   category: Joi.string()
     .valid(...categoryNoticeList)
-    .required(),
+    .required()
+    .empty(false),
   name: Joi.string().min(2).max(16).required(),
   birthday: Joi.string().required(),
   type: Joi.string().min(2).max(16).required(),
-  title: Joi.string().min(1),
+  title: Joi.string().empty(false),
   sex: Joi.string()
     .valid(...sexPetList)
     .required(),
-  location: Joi.string().min(2).required(),
-  price: Joi.number(),
-  comments: Joi.string().max(120),
+  location: Joi.string().required().empty(false),
+  price: Joi.alternatives().conditional("category", {
+    is: "sell",
+    then: Joi.number().required().empty(false),
+    otherwise: Joi.number(),
+  }),
+  comments: Joi.string(),
 });
 
 module.exports = {
