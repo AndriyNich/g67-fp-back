@@ -1,6 +1,9 @@
 const { Schema, model } = require("mongoose");
 
-const { handleMongooseError } = require("../../helpers");
+const {
+  handleMongooseError,
+  handleMongooseCheckDate,
+} = require("../../helpers");
 const { categoryNoticeList, sexPetList } = require("../../constants");
 
 const noticeSchema = new Schema(
@@ -59,6 +62,8 @@ const noticeSchema = new Schema(
   },
   { versionKey: false, timestamps: true }
 );
+
+noticeSchema.pre("save", handleMongooseCheckDate);
 
 noticeSchema.post("save", handleMongooseError);
 

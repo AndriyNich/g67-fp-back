@@ -1,40 +1,43 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model } = require("mongoose");
 
-const { emailRegexp } = require('../../constants');
+const { emailRegexp } = require("../../constants");
 
-const { handleMongooseError } = require('../../helpers');
+const {
+  handleMongooseError,
+  handleMongooseCheckDate,
+} = require("../../helpers");
 
 const userSchema = new Schema(
   {
     name: {
       type: String,
-      required: [true, 'Name is required'],
+      required: [true, "Name is required"],
     },
     email: {
       type: String,
       match: emailRegexp,
-      required: [true, 'Email is required'],
+      required: [true, "Email is required"],
       unique: true,
     },
     password: {
       type: String,
-      required: [true, 'Set password for user'],
+      required: [true, "Set password for user"],
     },
     phone: {
       type: String,
-      default: '',
+      default: "",
     },
     birthday: {
       type: String,
-      default: '',
+      default: "",
     },
     city: {
       type: String,
-      default: '',
+      default: "",
     },
     avatarURL: {
       type: String,
-      default: '',
+      default: "",
     },
     favorites: {
       type: Array,
@@ -42,14 +45,16 @@ const userSchema = new Schema(
     },
     token: {
       type: String,
-      default: '',
+      default: "",
     },
   },
   { versionKey: false, timestamps: true }
 );
 
-userSchema.post('save', handleMongooseError);
+userSchema.pre("findOneAndUpdate", handleMongooseCheckDate);
 
-const User = model('user', userSchema);
+userSchema.post("save", handleMongooseError);
+
+const User = model("user", userSchema);
 
 module.exports = User;
