@@ -3,7 +3,7 @@ const { User } = require("../models/users");
 
 const { SECRET_KEY } = process.env;
 
-const authenticateUpp = async (req, res, next) => {
+const authenticateDetails = async (req, res, next) => {
   const { authorization = "" } = req.headers;
   const [bearer, token] = authorization.split(" ");
   if (bearer !== "Bearer" || !token) {
@@ -27,4 +27,4 @@ const authenticateUpp = async (req, res, next) => {
   }
 };
 
-module.exports = authenticateUpp;
+module.exports = authenticateDetails;

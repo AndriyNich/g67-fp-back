@@ -7,7 +7,7 @@ const {
   validateBody,
   authenticate,
   isValidId,
-  authenticateUpp,
+  authenticateDetails,
   upload,
 } = require("../../middlewares");
 
@@ -37,12 +37,12 @@ router.delete(
   ctrl.deleteFavoriteById
 );
 
-router.get("/", authenticateUpp, ctrl.getList);
+router.get("/", authenticateDetails, ctrl.getList);
 
 router.get("/favorites", authenticate, ctrl.getFavoriteListByUserId);
 
 router.get("/users", authenticate, ctrl.getNoticeListByUserId);
 
-router.get("/:id", authenticateUpp, ctrl.getNoticeById);
+router.get("/:id", authenticateDetails, ctrl.getNoticeById);
 
 module.exports = router;
