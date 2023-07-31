@@ -11,6 +11,7 @@ const getList = async (req, res) => {
 
   const result = await News.aggregate([
     { $match: queryString },
+    { $sort: { date: -1 } },
     { $project: { createdAt: 0, updatedAt: 0 } },
     {
       $facet: {
