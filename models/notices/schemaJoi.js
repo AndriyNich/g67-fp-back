@@ -20,7 +20,7 @@ const addSchema = Joi.object({
     then: Joi.number().required().empty(false),
     otherwise: Joi.number(),
   }),
-  comments: Joi.string(),
+  comments: Joi.string().empty(""),
 });
 
 module.exports = {

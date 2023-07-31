@@ -1,0 +1,3 @@
+files:
+  - source: /node-hw/blob/main/README.md
+    translation: node-hw/%two_letters_code%/%original_file_name%
