@@ -1242,7 +1242,7 @@
     "/news": {
       "get": {
         "tags": ["news"],
-        "summary": "Get list friends",
+        "summary": "Get list news",
         "parameters": [
           {
             "in": "query",
@@ -1663,7 +1663,7 @@
           },
           "sex": {
             "type": "string",
-            "enum": ["femail", "mail"]
+            "enum": ["female", "male"]
           },
           "price": {
             "type": "number"
@@ -1716,7 +1716,7 @@
           },
           "sex": {
             "type": "string",
-            "enum": ["femail", "mail"]
+            "enum": ["female", "male"]
           },
           "location": {
             "type": "string"
@@ -1778,7 +1778,7 @@
                   },
                   "sex": {
                     "type": "string",
-                    "enum": ["femail", "mail"]
+                    "enum": ["female", "male"]
                   },
                   "price": {
                     "type": "number"
@@ -1890,7 +1890,7 @@
                   },
                   "sex": {
                     "type": "string",
-                    "enum": ["femail", "mail"]
+                    "enum": ["female", "male"]
                   },
                   "price": {
                     "type": "number"
@@ -1995,7 +1995,7 @@
           },
           "sex": {
             "type": "string",
-            "enum": ["femail", "mail"]
+            "enum": ["female", "male"]
           },
           "price": {
             "type": "number"
@@ -2066,7 +2066,7 @@
               },
               "sex": {
                 "type": "string",
-                "enum": ["femail", "mail"]
+                "enum": ["female", "male"]
               },
               "price": {
                 "type": "number"
