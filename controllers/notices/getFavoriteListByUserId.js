@@ -22,6 +22,7 @@ const getFavoriteListByUserId = async (req, res) => {
 
   const result = await Notice.aggregate([
     { $match: queryString },
+    { $sort: { updatedAt: -1 } },
     { $addFields: { favorite: true } },
     { $project: { createdAt: 0, updatedAt: 0 } },
     {
