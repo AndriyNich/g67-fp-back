@@ -1428,30 +1428,45 @@
       "UserPatchResponse": {
         "type": "object",
         "properties": {
-          "name": {
-            "type": "string",
-            "example": "Mango1"
-          },
-          "email": {
-            "type": "string",
-            "example": "mango1@gmail.com",
-            "format": "email"
-          },
-          "birthday": {
-            "type": "string",
-            "example": "00.00.0000"
-          },
-          "phone": {
-            "type": "string",
-            "example": "+380000000000"
-          },
-          "city": {
-            "type": "string",
-            "example": "Kiev"
-          },
-          "avatarURL": {
-            "type": "string",
-            "example": "https://res.cloudinary.com/duz0fredh/image/upload/v1690018006/default/avatarUser.png"
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "example": "Mango1"
+              },
+              "email": {
+                "type": "string",
+                "example": "mango1@gmail.com",
+                "format": "email"
+              },
+              "birthday": {
+                "type": "string",
+                "example": "00.00.0000"
+              },
+              "phone": {
+                "type": "string",
+                "example": "+380000000000"
+              },
+              "city": {
+                "type": "string",
+                "example": "Kiev"
+              },
+              "avatarURL": {
+                "type": "string",
+                "example": "https://res.cloudinary.com/duz0fredh/image/upload/v1690018006/default/avatarUser.png"
+              }
+            }
+          }
+        },
+        "examples": {
+          "user": {
+            "name": "Mango5",
+            "email": "mango5@gmail.com",
+            "phone": "+380660123456",
+            "city": "london",
+            "birthday": "22-05-2001",
+            "avatarURL": "https://res.cloudinary.com/duz0fredh/image/upload/v1690286198/users/64bba39d138fec00adde2b47_.jpg"
           }
         }
       },
