@@ -4,6 +4,7 @@ const ctrlWrapper = require("./crtlWrapper");
 const createTokenForUserId = require("./createTokenForUserId");
 const getPaginationFields = require("./getPaginationFields");
 const getQueryString = require("./getQueryString");
+const handleMongooseCheckDate = require("./handleMongooseCheckDate");
 
 module.exports = {
   handleMongooseError,
@@ -12,4 +13,5 @@ module.exports = {
   createTokenForUserId,
   getPaginationFields,
   getQueryString,
+  handleMongooseCheckDate,
 };

@@ -1,39 +1,44 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model } = require("mongoose");
 
-const { handleMongooseError } = require('../../helpers');
+const {
+  handleMongooseError,
+  handleMongooseCheckDate,
+} = require("../../helpers");
 
 const petSchema = new Schema(
   {
     owner: {
       type: Schema.Types.ObjectId,
-      ref: 'user',
+      ref: "user",
     },
     name: {
       type: String,
-      required: [true, 'Name is required'],
+      required: [true, "Name is required"],
     },
     birthday: {
       type: String,
-      default: '',
+      default: "",
     },
     type: {
       type: String,
-      default: '',
+      default: "",
     },
     comments: {
       type: String,
-      default: '',
+      default: "",
     },
     avatarURL: {
       type: String,
-      default: '',
+      default: "",
     },
   },
   { versionKey: false, timestamps: true }
 );
 
-petSchema.post('save', handleMongooseError);
+petSchema.pre("save", handleMongooseCheckDate);
 
-const Pet = model('pet', petSchema);
+petSchema.post("save", handleMongooseError);
+
+const Pet = model("pet", petSchema);
 
 module.exports = Pet;
