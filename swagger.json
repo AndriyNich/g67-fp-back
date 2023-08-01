@@ -1790,7 +1790,9 @@
                   "favorite": {
                     "type": "boolean"
                   },
-                  "allowDelete": { "type": "boolean" }
+                  "allowDelete": {
+                    "type": "boolean"
+                  }
                 }
               }
             },

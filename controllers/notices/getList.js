@@ -47,9 +47,7 @@ const getList = async (req, res) => {
       if (favorites.includes(e._id)) {
         e.favorite = true;
       }
-      console.log(`e.owner: ${e.owner}, owner: ${owner}`);
       if (String(e.owner) === owner) {
-        console.log(true);
         e.allowDelete = true;
       }
     });
