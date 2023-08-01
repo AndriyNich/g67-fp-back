@@ -15,7 +15,7 @@ const getNoticeListByUserId = async (req, res) => {
   const result = await Notice.aggregate([
     { $match: queryString },
     { $sort: { updatedAt: -1 } },
-    { $addFields: { favorite: false } },
+    { $addFields: { favorite: false, allowDelete: true } },
     { $project: { createdAt: 0, updatedAt: 0 } },
     {
       $facet: {

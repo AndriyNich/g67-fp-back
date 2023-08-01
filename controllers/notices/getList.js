@@ -14,7 +14,7 @@ const getList = async (req, res) => {
   const result = await Notice.aggregate([
     { $match: queryString },
     { $sort: { updatedAt: -1 } },
-    { $addFields: { favorite: false } },
+    { $addFields: { favorite: false, allowDelete: false } },
     { $project: { createdAt: 0, updatedAt: 0 } },
     {
       $facet: {
@@ -39,11 +39,16 @@ const getList = async (req, res) => {
   ]);
 
   if (req?.user?._id) {
+    const owner = String(req.user._id);
+
     const { favorites } = await User.findById(req.user._id, "favorites");
 
     result[0].notices.forEach((e) => {
       if (favorites.includes(e._id)) {
         e.favorite = true;
+      }
+      if (String(e.owner) === owner) {
+        e.allowDelete = true;
       }
     });
   }

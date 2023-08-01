@@ -1350,6 +1350,10 @@
           "user": {
             "type": "object",
             "properties": {
+              "_id": {
+                "type": "string"
+              },
+
               "name": {
                 "type": "string",
                 "example": "Mango1"
@@ -1785,7 +1789,8 @@
                   },
                   "favorite": {
                     "type": "boolean"
-                  }
+                  },
+                  "allowDelete": { "type": "boolean" }
                 }
               }
             },
@@ -1819,7 +1824,8 @@
                 "price": 0,
                 "comments": "",
                 "location": "Brovary",
-                "favorite": false
+                "favorite": false,
+                "allowDelete": false
               },
               {
                 "_id": "64bfc3f2aa599bb2b6ee71f0",
@@ -1833,7 +1839,8 @@
                 "price": 0,
                 "comments": "",
                 "location": "New York",
-                "favorite": false
+                "favorite": false,
+                "allowDelete": false
               }
             ],
             "totalCount": 8,
@@ -1897,6 +1904,9 @@
                   },
                   "favorite": {
                     "type": "boolean"
+                  },
+                  "allowDelete": {
+                    "type": "boolean"
                   }
                 }
               }
@@ -1931,7 +1941,8 @@
                 "price": 0,
                 "comments": "",
                 "location": "Brovary",
-                "favorite": false
+                "favorite": false,
+                "allowDelete": false
               },
               {
                 "_id": "64bfc3f2aa599bb2b6ee71f0",
@@ -1945,7 +1956,8 @@
                 "price": 0,
                 "comments": "",
                 "location": "New York",
-                "favorite": false
+                "favorite": false,
+                "allowDelete": false
               }
             ],
             "totalCount": 8,
