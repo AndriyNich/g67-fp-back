@@ -1,6 +1,6 @@
-const Joi = require('joi');
+const Joi = require("joi");
 
-const { emailRegexp } = require('../../constants');
+const { emailRegexp } = require("../../constants");
 
 const registerSchema = Joi.object({
   name: Joi.string().min(2).max(16).required(),
@@ -16,9 +16,9 @@ const loginSchema = Joi.object({
 const updateSchema = Joi.object({
   name: Joi.string().min(2).max(16),
   email: Joi.string().pattern(emailRegexp).min(1),
-  phone: Joi.string(),
-  birthday: Joi.string(),
-  city: Joi.string(),
+  phone: Joi.string().empty(""),
+  birthday: Joi.string().empty(""),
+  city: Joi.string().empty(""),
 });
 
 module.exports = {
